@@ -1,5 +1,6 @@
 import time
 import socket
+import sys
 import os
 from _thread import *
 
@@ -14,6 +15,14 @@ host = ''
 port = 8887
 ThreadCount = 0
 
+#typewriter animation
+def typewriter(msg):
+    for char in msg:
+        sys.stdout.write(char)
+        sys.stdout.flush()
+        time.sleep(0.1)
+
+
 # Binding and binding error catch
 try:
     ServerSocket.bind((host, port))
@@ -22,11 +31,11 @@ except socket.error as e:
 
 # Clear terminal
 os.system('clear')
+
 # Socket listening
-print('Waiting for a Connection..')
+x = "Waiting for a Connection...\n"
+typewriter(x)
 ServerSocket.listen(5)
-
-
 
 welcome = "Welcome to the Server! :D\n**To disconnect press CTRL+C** "
 def threaded_client(connection, addr):
@@ -35,7 +44,7 @@ def threaded_client(connection, addr):
         while True:
             data = connection.recv(2048)
             reply = 'Server Says: '+ data.decode('UTF-8')
-            print("Sent: \""+str(data.decode())+"\" to client: "+str(addr))
+            print("Received and Sent back: \""+str(data.decode())+"\" to client: "+str(addr))
             if not data:
                 break
             connection.sendall(reply.encode(encoding='UTF-8',errors='strict'))
@@ -44,7 +53,7 @@ def threaded_client(connection, addr):
 
     connection.close()
 
-# Multithreading code 
+# Multithread
 while True:
     Client, address = ServerSocket.accept()
     print('Connected to: ' + address[0] + ':' + str(address[1]))
