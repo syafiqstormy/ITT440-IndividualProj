@@ -17,8 +17,6 @@ port = 8887
 
 # Clearing terminal
 os.system('clear')
-print('Waiting for connection')
-
 # catch error if socket has problem connecting to server
 try:
     ClientSocket.connect((host, port))
@@ -29,7 +27,7 @@ Response = ClientSocket.recv(1024)
 print(Response.decode('UTF-8'))
 
 while True:
-    Input = input('Say Something : ')
+    Input = input('Say Something to server : ')
 
 # Empty input error checking
     if Input =='':
